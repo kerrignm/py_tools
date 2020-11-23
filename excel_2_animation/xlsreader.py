@@ -3,8 +3,10 @@ import xlrd
 
 class XlsReader:
 
+    _data_path = f'data'
+
     def __init__(self, name, sheet=None):
-        self._wb = xlrd.open_workbook(name)
+        self._wb = xlrd.open_workbook(f'{self._data_path}/{name}')
         if sheet is not None:
             self._sheet = self._wb.sheet_by_name(sheet)
         else:

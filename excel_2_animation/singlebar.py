@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
@@ -6,16 +8,17 @@ from matplotlib.ticker import FuncFormatter
 class SingleBar:
 
     _ani_frames = 50
+    _img_path = f'images'
 
     def __init__(self, chart_keys, chart_labels, chart_values, alpha_ani=True, pos_ani=True):
         self._alpha_ani = alpha_ani
         self._pos_ani = pos_ani
-        self._X = None
-        self._Y = None
         self._chart_idx = 0
         self._chart_keys = chart_keys
         self._chart_labels = chart_labels
         self._chart_values = chart_values
+        self._X = None
+        self._Y = None
         self._fig = None
         self._ax = None
         self._bars = None
@@ -67,7 +70,9 @@ class SingleBar:
         ani = animation.FuncAnimation(fig=self._fig, func=_animate, frames=self._ani_frames, init_func=_init,
                                       interval=20, blit=False)
         if save_file:
-            ani.save(f'{self._chart_keys[chart_idx]}.gif')
+            if not os.path.exists(self._img_path):
+                os.mkdir(self._img_path)
+            ani.save(f'{self._img_path}/{self._chart_keys[chart_idx]}.gif')
 
         if show_chart:
             plt.show()
